@@ -55,15 +55,15 @@ public class FileService {
 	public static void outputBestWorstMonths(List<ResultByMonth> results, String modelName) {
 		
 	    ResultByMonth bestMonth = results.stream()
-	            													  .max(Comparator.comparingInt(ResultByMonth::getTotalSales))
-	            													  .orElse(null);
+                                                                      .max(Comparator.comparingInt(ResultByMonth::getTotalSales))
+                                                                      .orElse(null);
 	    if (bestMonth != null) {
 	        System.out.println("The best month for Model " + modelName + " was: " + bestMonth.getYearMonth());
 	    }
 
 	    ResultByMonth worstMonth = results.stream()
-	            														.min(Comparator.comparingInt(ResultByMonth::getTotalSales))
-	            														.orElse(null);
+                                                                        .min(Comparator.comparingInt(ResultByMonth::getTotalSales))
+                                                                        .orElse(null);
 	    if (worstMonth != null) {
 	        System.out.println("The worst month for Model " + modelName + " was: " + worstMonth.getYearMonth());
 	    }
