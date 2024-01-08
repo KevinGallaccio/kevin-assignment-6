@@ -14,17 +14,16 @@ import java.util.stream.Collectors;
 
 public class FileService {
 
-	public static List<ResultByMonth> readFile (String filePath) {
+	public static List<ResultByMonth> readFile(String filePath) {
 		List<ResultByMonth> result = new ArrayList<>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(filePath));){
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath));) {
 			String line;
 			reader.readLine();
 			while ((line = reader.readLine()) != null) {
 				String[] resultInfo = line.split(",");
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy")
-																									    .withLocale(Locale.US);
-				ResultByMonth monthlyResult = new ResultByMonth(YearMonth.parse(resultInfo[0], formatter), 
-																											Integer.parseInt(resultInfo[1].trim()));
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy").withLocale(Locale.US);
+				ResultByMonth monthlyResult = new ResultByMonth(YearMonth.parse(resultInfo[0], formatter),
+						Integer.parseInt(resultInfo[1].trim()));
 				result.add(monthlyResult);
 			}
 		} catch (IOException e) {
@@ -32,24 +31,19 @@ public class FileService {
 		}
 		return result;
 	}
-	
-	
 
 	public static void generateReport(List<ResultByMonth> results, String modelName) {
 		System.out.println("Model " + modelName + " Yearly Sales Report");
 		System.out.println("---------------------------");
-		
-        Map<Integer, Integer> yearlySales = results.stream()
-              																	   .collect(Collectors.groupingBy(result -> result.getYearMonth()
-                																		       																	  .getYear(),
-                																		       	 Collectors.summingInt(ResultByMonth::getTotalSales)));
-        
-        yearlySales.forEach((year, totalSales) -> System.out.println(year + " -> " + totalSales));
-        
-        System.out.println();
-		
+
+		Map<Integer, Integer> yearlySales = results.stream().collect(Collectors.groupingBy(
+				result -> result.getYearMonth().getYear(), Collectors.summingInt(ResultByMonth::getTotalSales)));
+
+		yearlySales.forEach((year, totalSales) -> System.out.println(year + " -> " + totalSales));
+
+		System.out.println();
+
 	}
-	
 	
 
 	public static void outputBestWorstMonths(List<ResultByMonth> results, String modelName) {
